@@ -1,0 +1,37 @@
+{
+  "name": "feracode-test-backend",
+  "version": "1.0.0",
+  "description": "This is a backend server for FeraCode Test.",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha --timeout 10000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthurras/feracode-backend.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "ExpressJS",
+    "CouchDB",
+    "NoSQL"
+  ],
+  "author": "Arthur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arthurras/feracode-backend/issues"
+  },
+  "homepage": "https://github.com/arthurras/feracode-backend#readme",
+  "dependencies": {
+    "async": "^2.6.2",
+    "boom": "^7.3.0",
+    "config": "^3.0.1",
+    "deep-equal": "^1.0.1",
+    "express": "^4.16.4",
+    "joi": "^14.3.1",
+    "jsonapi-serializer": "^3.6.4",
+    "nano": "^8.0.1",
+    "node-couchdb": "^1.3.0",
+    "object-versions": "^1.0.0"
+  }
+}
