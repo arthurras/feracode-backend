@@ -1,8 +1,8 @@
 let options = {
   serializer: {
     id: '_id',
-    attributes: ['model', 'description'],
-    sizes: {
+    attributes: ['model', 'description', 'stock'],
+    stock: {
       ref: 'id',
       included: false,
       attributes: ['id']

@@ -1,21 +1,10 @@
 let options = {
   serializer: {
     id: '_id',
-    attributes: ['model', 'description'],
-    sizes: {
-      ref: 'id',
-      included: false,
-      attributes: ['id']
-    }
+    attributes: ['name']
   },
   deserializer: {
-    attributes: ['model', 'description'],
-    relationships: ['sizes'],
-    sizes: {
-      valueForRelationship: function (relationship) {
-        return relationship.id;
-      }
-    }
+    attributes: ['name']
   }
 };
 

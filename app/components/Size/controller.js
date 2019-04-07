@@ -1,57 +1,65 @@
-const Diaper = require('./model');
-const DiaperHelper = require('./helper');
+const Size = require('./model');
+const SizeHelper = require('./helper');
 const DBErrors = require('../../helpers/DBErrors');
 
-const DiaperController = {
+const SizeController = {
 
   list(req, res) {
-    Diaper.list({}, (err, result) => {
+    let viewParams = {
+      include_docs: true,
+      descending: true
+    };
+
+
+    if (req.query.name) {
+      viewParams.key = req.query.name;
+    }
+
+    return Size.view(
+      'by_name', 'by_name',
+      viewParams, DBErrors.wrapNano(function(err, result) {
+        if (err) {
+          return res.json(err);
+        }
+
+        return res.json(SizeHelper.serializeMany(result.rows));
+      })
+    );
+  },
+
+  one(req, res) {
+    Size.findById(req.params.size_id, (err, foundedSize) => {
       if (err) {
         return res.json(err);
       }
 
-      return res.json(DiaperHelper.serializeMany(result.rows));
+      return res.json(SizeHelper.serialize(foundedSize));
     });
-
-    // let viewParams = {
-    //   include_docs: true,
-    //   descending: true
-    // };
-    //
-    // return Diaper.view(
-    //
-    //   viewParams, DBErrors.wrapNano(function(err, result) {
-    //     if (err) {
-    //       return res.json(err);
-    //     }
-    //
-    //     return res.json(DiaperHelper.serializeMany(result.rows));
-    //   })
-    // );
   },
 
+
   create(req, res) {
-    return DiaperHelper.deserialize(req.body, (err, diaperData) => {
+    return SizeHelper.deserialize(req.body, (err, sizeData) => {
       if (err) {
         return console.log(err);
       }
 
-      diaperData.createdAt = new Date();
+      sizeData.createdAt = new Date();
 
-      return Diaper.create(diaperData, (err, savedDiaper) => {
-        res.json(DiaperHelper.serialize(savedDiaper));
+      return Size.create(sizeData, (err, savedSize) => {
+        res.json(SizeHelper.serialize(savedSize));
       });
     });
   },
 
   update(req, res) {
-    return DiaperHelper.deserialize(req.body, (err, diaperData) => {
-      return Diaper.updateDiff(diaperData, (err, savedDiaper) => {
-        res.json(DiaperHelper.serialize(savedDiaper));
+    return SizeHelper.deserialize(req.body, (err, sizeData) => {
+      return Size.updateDiff(sizeData, (err, savedSize) => {
+        res.json(SizeHelper.serialize(savedSize));
       });
     });
   }
 
 };
 
-module.exports = DiaperController;
+module.exports = SizeController;

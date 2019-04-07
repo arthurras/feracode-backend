@@ -4,20 +4,21 @@ const async = require('async');
 
 let schemaDefinitions = require('./SchemaDefinitions');
 
+let views = [];
+const databaseNames = schemaDefinitions.map((schema) => {
+  return schema.database;
+});
+
+schemaDefinitions.forEach(function(schema) {
+  views[schema.database] = require('../components/' + schema.component + '/view');
+});
+
 const Views = {
 
   populate(callback) {
-    let views = [];
-    const databaseNames = schemaDefinitions.map((schema) => {
-      return schema.database;
-    });
 
-    schemaDefinitions.forEach(function(schema) {
-      views[schema.database] = require('../components/' + schema.component + '/view');
-    });
-
-    return async.each(databaseNames, (dbName) => {
-      return Views.populateDB(dbName, views, callback);
+    return async.each(databaseNames, (dbName, inCallback) => {
+      return Views.populateDB(dbName, views, inCallback);
     }, callback);
   },
 
@@ -25,8 +26,8 @@ const Views = {
     const database = couch.use(dbName);
     let dbViews = views[dbName];
 
-    async.eachSeries(Object.keys(dbViews), (viewName, callback) => {
-      return Views.ensureView(viewName, dbName, dbViews, callback);
+    async.eachSeries(Object.keys(dbViews), (viewName, inCallback) => {
+      Views.ensureView(viewName, dbName, dbViews, inCallback);
     }, callback);
   },
 
@@ -61,13 +62,13 @@ const Views = {
     }
 
     ddoc.views[viewName] = view;
+
     return database.insert(ddoc, ddocName, function(err) {
       if (err && err.statusCode == 409) {
         return Views.ensureView(viewName, callback);
       }
 
       return callback(err);
-
     });
   }
 

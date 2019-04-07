@@ -1,33 +1,36 @@
 const Stock = require('./model');
 const StockHelper = require('./helper');
 const DBErrors = require('../../helpers/DBErrors');
+const SizeHelper = require('../Size/helper');
 
 const StockController = {
 
   list(req, res) {
-    Stock.list({}, (err, result) => {
+    let viewParams = {
+      include_docs: true,
+      descending: true
+    };
+
+    return Stock.view(
+      'by_name', 'by_name',
+      viewParams, DBErrors.wrapNano(function(err, result) {
+        if (err) {
+          return res.json(err);
+        }
+
+        return res.json(StockHelper.serializeMany(result.rows));
+      })
+    );
+  },
+
+  one(req, res) {
+    Stock.findById(req.params.stock_id, (err, foundedStock) => {
       if (err) {
         return res.json(err);
       }
 
-      return res.json(StockHelper.serializeMany(result.rows));
+      return res.json(StockHelper.serialize(foundedStock));
     });
-
-    // let viewParams = {
-    //   include_docs: true,
-    //   descending: true
-    // };
-    //
-    // return Stock.view(
-    //
-    //   viewParams, DBErrors.wrapNano(function(err, result) {
-    //     if (err) {
-    //       return res.json(err);
-    //     }
-    //
-    //     return res.json(StockHelper.serializeMany(result.rows));
-    //   })
-    // );
   },
 
   create(req, res) {
@@ -37,17 +40,27 @@ const StockController = {
       }
 
       stockData.createdAt = new Date();
+      return SizeHelper.sizeForStock(stockData, (err, size) => {
+        let normalizedStock = StockHelper.normalizeData(stockData);
 
-      return Stock.create(stockData, (err, savedStock) => {
-        res.json(StockHelper.serialize(savedStock));
+        normalizedStock.size = size;
+        return Stock.create(stockData, (err, savedStock) => {
+          res.json(StockHelper.serialize(savedStock));
+        });
       });
     });
   },
 
   update(req, res) {
     return StockHelper.deserialize(req.body, (err, stockData) => {
-      return Stock.updateDiff(stockData, (err, savedStock) => {
-        res.json(StockHelper.serialize(savedStock));
+      return SizeHelper.sizeForStock(stockData, (err, size) => {
+        let normalizedStock = StockHelper.normalizeData(stockData);
+
+        normalizedStock.size = size;
+
+        return Stock.updateDiff(normalizedStock, (err, savedStock) => {
+          res.json(StockHelper.serialize(savedStock));
+        });
       });
     });
   }

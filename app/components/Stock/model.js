@@ -30,7 +30,6 @@ const StockModel = {
           return StockModel.findById(savedStock.id, DBErrors.wrapNano(callback));
         });
       });
-
     }));
   },
 

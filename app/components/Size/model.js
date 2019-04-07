@@ -88,6 +88,28 @@ const SizeModel = {
     }
 
     return callback(...arguments);
+  },
+
+  findOrCreate(sizeData, callback) {
+    return Sizes.view(
+      'by_name', 'by_name',
+      {
+        key: sizeData.name
+      },
+
+      DBErrors.wrapNano(function(err, result) {
+        if (result.rows.length) {
+          return callback(err, result.rows[0]._id);
+        }
+
+        return SizeModel.create({
+          name: sizeData.name,
+          createdAt: new Date()
+        }, (err, savedSize) => {
+          return callback(err, savedSize._id);
+        });
+      })
+    );
   }
 
 };

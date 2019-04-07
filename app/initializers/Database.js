@@ -7,7 +7,7 @@ let schemaDefinitions = require('../database/SchemaDefinitions');
 const DatabaseInitializer = {
 
   init(callback) {
-    return async.series([DatabaseInitializer.createDatabases], callback);
+    return async.series([DatabaseInitializer.createDatabases, DatabaseInitializer.createViews], callback);
   },
 
   createDatabases(callback) {

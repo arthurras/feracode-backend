@@ -14,8 +14,8 @@ const StockSchema = {
   }),
 
   create: Joi.object().keys({
-    diaper: Joi.string(),
-    size: Joi.string(),
+    diaper: Joi.string().required(),
+    size: Joi.string().required(),
     stock: Joi.number(),
     createdAt: Joi.date()
   }),

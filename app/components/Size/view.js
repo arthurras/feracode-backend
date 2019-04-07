@@ -1,8 +1,8 @@
 const SizeView = {
   by_name: {
     map: function(doc) {
-      if (doc.model) {
-        emit(doc.model, {_id: doc._id});
+      if (doc.name) {
+        emit(doc.name, {_id: doc._id});
       }
     }
   }

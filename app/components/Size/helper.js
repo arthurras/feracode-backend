@@ -1,7 +1,8 @@
+const deserializer = require('./serializer').deserializer;
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
+const Size = require('./model');
 const serializer = require('./serializer').serializer;
-const deserializer = require('./serializer').deserializer;
 
 const SizeHelper = {
   serializeMany(sizes) {
@@ -23,6 +24,18 @@ const SizeHelper = {
 
       callback(err, deserializedSize);
     });
+  },
+
+  sizeForStock(stockData, callback) {
+    if (stockData.size) {
+      return callback(null, stockData.size);
+    }
+
+    if (stockData['size-name']) {
+      return Size.findOrCreate({name: stockData['size-name']}, callback);
+    }
+
+    callback('Size not found');
   }
 };
 

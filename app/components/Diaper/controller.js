@@ -5,29 +5,19 @@ const DBErrors = require('../../helpers/DBErrors');
 const DiaperController = {
 
   list(req, res) {
-    Diaper.list({}, (err, result) => {
+    return DiaperHelper.queryWithStock(req.query, (err, result) => {
+      return res.json(DiaperHelper.serializeMany(result));
+    });
+  },
+
+  one(req, res) {
+    return DiaperHelper.findByIdWithStock(req.params.diaper_id, (err, foundedDiaper) => {
       if (err) {
         return res.json(err);
       }
 
-      return res.json(DiaperHelper.serializeMany(result.rows));
+      return res.json(DiaperHelper.serialize(foundedDiaper));
     });
-
-    // let viewParams = {
-    //   include_docs: true,
-    //   descending: true
-    // };
-    //
-    // return Diaper.view(
-    //
-    //   viewParams, DBErrors.wrapNano(function(err, result) {
-    //     if (err) {
-    //       return res.json(err);
-    //     }
-    //
-    //     return res.json(DiaperHelper.serializeMany(result.rows));
-    //   })
-    // );
   },
 
   create(req, res) {
