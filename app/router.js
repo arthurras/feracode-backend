@@ -14,9 +14,10 @@ router.route('/diapers')
 router.route('/diapers/:diaper_id')
   .get(DiaperController.one)
   .patch(DiaperController.update)
+  .delete(DiaperController.delete)
 ;
 
-router.route('/diapers')
+router.route('/orders')
   .get(OrderController.list)
   .post(OrderController.create)
 ;

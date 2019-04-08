@@ -4,6 +4,10 @@ module.exports = [
     database: 'diapers'
   },
   {
+    component: 'Order',
+    database: 'orders'
+  },
+  {
     component: 'Size',
     database: 'sizes'
   },

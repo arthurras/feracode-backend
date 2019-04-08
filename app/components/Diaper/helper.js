@@ -82,6 +82,10 @@ const DiaperHelper = {
         return callback(err);
       }
 
+      if (diaper.deletedAt) {
+        callback(err, null);
+      }
+
       const stock = await DiaperHelper.fetchStock(diaper);
 
       if (stock && stock.length) {

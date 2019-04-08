@@ -8,7 +8,8 @@ const DiaperSchema = {
     model: Joi.string().min(3).max(100),
     description: Joi.string().max(255),
     updatedAt: Joi.date(),
-    createdAt: Joi.date()
+    createdAt: Joi.date(),
+    deletedAt: Joi.date()
   }),
 
   create: Joi.object().keys({

@@ -40,8 +40,13 @@ const DiaperController = {
         res.json(DiaperHelper.serialize(savedDiaper));
       });
     });
-  }
+  },
 
+  delete(req, res) {
+    return Diaper.updateDiff({_id: req.params.diaper_id, deletedAt: new Date()}, (err, savedDiaper) => {
+      return res.json(DiaperHelper.serialize({_id: savedDiaper._id}));
+    });
+  }
 };
 
 module.exports = DiaperController;

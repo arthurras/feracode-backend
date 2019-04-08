@@ -1,27 +1,27 @@
 let options = {
   serializer: {
     id: '_id',
-    attributes: ['stock', 'size', 'diaper', 'zeroedInMinutes', 'totalOrders'],
+    attributes: ['createdAt', 'stock', 'diaper'],
     diaper: {
       ref: 'id',
       included: false,
       attributes: ['id']
     },
-    size: {
+    stock: {
       ref: 'id',
       included: false,
       attributes: ['id']
     }
   },
   deserializer: {
-    attributes: ['stock'],
-    relationships: ['diaper', 'size'],
+    attributes: ['order'],
+    relationships: ['diaper', 'stock'],
     diapers: {
       valueForRelationship(relationship) {
         return relationship.id;
       }
     },
-    sizes: {
+    stocks: {
       valueForRelationship(relationship) {
         return relationship.id;
       }

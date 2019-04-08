@@ -1,7 +1,8 @@
+const DBErrors = require('../../helpers/DBErrors');
+const Order = require('../Order/model');
+const SizeHelper = require('../Size/helper');
 const Stock = require('./model');
 const StockHelper = require('./helper');
-const DBErrors = require('../../helpers/DBErrors');
-const SizeHelper = require('../Size/helper');
 
 const StockController = {
 
@@ -12,7 +13,7 @@ const StockController = {
     };
 
     return Stock.view(
-      'by_name', 'by_name',
+      'by_diaper', 'by_diaper',
       viewParams, DBErrors.wrapNano(function(err, result) {
         if (err) {
           return res.json(err);
@@ -24,7 +25,7 @@ const StockController = {
   },
 
   one(req, res) {
-    Stock.findById(req.params.stock_id, (err, foundedStock) => {
+    StockHelper.findByIdWithOrdersNumber(req.params.stock_id, (err, foundedStock) => {
       if (err) {
         return res.json(err);
       }

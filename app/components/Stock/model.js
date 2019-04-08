@@ -27,6 +27,10 @@ const StockModel = {
         }
 
         return Stocks.insert(stock, (err, savedStock) => {
+          if (err) {
+            return callback(err);
+          }
+
           return StockModel.findById(savedStock.id, DBErrors.wrapNano(callback));
         });
       });
