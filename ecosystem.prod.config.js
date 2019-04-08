@@ -7,13 +7,13 @@ module.exports = {
 
     {
       name      : 'API_Prod',
-      script    : '/home/ubuntu/feracode/feracode-backends/server.js',
+      script    : '/home/ubuntu/feracode/feracode-backend/server.js',
       //instances : 2,
       exec_mode : 'cluster',
       env: {
         COMMON_VARIABLE: 'true',
         NODE_ENV: 'prod',
-        NODE_CONFIG_DIR: '/home/ubuntu/feracode/feracode-backends/config'
+        NODE_CONFIG_DIR: '/home/ubuntu/feracode/feracode-backend/config'
       },
       env_production : {
         NODE_ENV: 'prod'
