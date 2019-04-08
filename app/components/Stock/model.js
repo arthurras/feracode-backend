@@ -1,7 +1,7 @@
 const config = require('config');
 const DBErrors = require('../../helpers/DBErrors');
 const schemas = require('../../database/Schemas');
-const Stocks = require('../../database/couchdb').use('stocks');
+const Stocks = require('../../database/couchDB').use('stocks');
 const diff = require('object-versions').diff;
 const extend = require('extend');
 
