@@ -74,7 +74,7 @@ const StockHelper = {
           }
 
           foundedStock.totalOrders = totalOrders;
-          console.log(foundedStock);
+
           callback(err, foundedStock);
         }
       );
