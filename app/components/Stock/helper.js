@@ -55,6 +55,8 @@ const StockHelper = {
 
   normalizeData(stockData) {
     delete stockData['size-name'];
+    delete stockData['zeroed-in-minutes'];
+    delete stockData['total-orders'];
 
     return stockData;
   },
