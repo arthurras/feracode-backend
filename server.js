@@ -13,7 +13,7 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/*', limit: '5mb'}));
 
 app.use(function(req, res, next) {
-  var allowedOrigins = [ 'http://localhost:4200', 'http://52.89.98.67', 'http://localhost' ];
+  var allowedOrigins = [ 'http://localhost:4200', 'http://52.89.98.67', 'http://localhost', 'http://arthurras.ddns.net' ];
   var origin = req.headers.origin;
 
   if (allowedOrigins.indexOf(origin) > -1){
