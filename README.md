@@ -3,6 +3,13 @@
 
 This is the Backend server for FeraCode Test.
 
+## Project URLs
+
+This project is hosted on an Amazon Server.
+You can access the API base url [here](http://arthurras.ddns.net/api/v1).
+If you want access the hosted Web project, click [here](http://arthurras.ddns.net)
+
+
 ## Project Standards
 
 This project uses NodeJS, with ExpressJS and CouchDB.
